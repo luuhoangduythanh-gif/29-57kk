@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ôn Thi Sát Hạch CNTT - Phần 2 (Câu 29-57)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            text-align: center;
+            color: #c82333;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-size: 22px;
+        }
+        .question-block {
+            background: #fafafa;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #dc3545;
+            border-radius: 4px;
+        }
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option-label:hover {
+            background: #fff5f5;
+            border-color: #dc3545;
+        }
+        .option-label input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background: #218838;
+        }
+        .result-box {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #e2f0d9;
+            border: 2px solid #385723;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #385723;
+        }
+        .correct-answer {
+            background: #d4edda !important;
+            border-color: #28a745 !important;
+            font-weight: bold;
+        }
+        .wrong-answer {
+            background: #f8d7da !important;
+            border-color: #dc3545 !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>BỘ CÂU HỎI ÔN THI SÁT HẠCH CÔNG NGHỆ THÔNG TIN (CÂU 29 - 57)</h1>
+    <div id="quiz"></div>
+    <button class="btn-submit" onclick="checkAnswers()">NỘP BÀI & XEM KẾT QUẢ</button>
+    <div id="result" class="result-box"></div>
+</div>
+
+<script>
+const quizData = [
+    {
+        q: "Anh (chị) hiểu Virus tin học là gì ?",
+        a: ["Có khả năng phá hoại đối với các sản phẩm tin học", "Tất cả đều đúng", "Có khả năng tự dấu kín, tự sao chép để lây lan", "Là một chương trình máy tính do con người tạo ra"],
+        correct: 1
+    },
+    {
+        q: "Trong MS Word, muốn tạo số thứ tự, tự động vào ở đầu mỗi đoạn văn bản, ta chọn chức năng:",
+        a: ["Symbol", "Bullets", "Numbering and Bullets", "Numbering"],
+        correct: 3
+    },
+    {
+        q: "Trong MS Word 2013 để tìm và thay thế những định dạng đặc biệt, ta thực hiện:",
+        a: ["Thẻ Page Layout – Edit – nhấn nút Find/Replace – More – Format", "Thẻ Insert – Edit – nhấn nút Find/Replace – More – Format", "Thẻ Home – Editing – nhấn nút Find hoặc Replace – More – Format", "Thẻ Mailings – Edit – nhấn nút Find/Replace – More – Format"],
+        correct: 2
+    },
+    {
+        q: "Khi nhập công thức trong Excel trước công thức phải có dấu:",
+        a: ["=", "/", "?", "*"],
+        correct: 0
+    },
+    {
+        q: "Trong Excel, muốn chuyển đổi giữa địa chỉ tương đối và địa chỉ tuyệt đối trong công thức, ta sử dụng phím:",
+        a: ["F2", "F3", "F5", "F4"],
+        correct: 3
+    },
+    {
+        q: "Khi đang làm việc với WinWord (Excel), nếu lưu tập tin vào đĩa, thì tập tin đó ?",
+        a: ["Luôn luôn ở trong thư mục My Documents", "Bắt buộc ở trong thư mục WINWORD (EXCEL)", "Luôn luôn ở trong thư mục OFFICE", "Cả 3 câu đều sai"],
+        correct: 3
+    },
+    {
+        q: "Công thức MOD(6*3/2,7) cho kết quả:",
+        a: ["1", "5", "2", "3"],
+        correct: 2
+    },
+    {
+        q: "Trong MS Word, để vẽ các hình khối đơn giản như đường thẳng, ô vuông, mũi tên,... ta chọn chức năng:",
+        a: ["Chart", "Standard", "Drawing", "Shapes"],
+        correct: 3
+    },
+    {
+        q: "Công thức ROUND(1234.674,2) cho kết quả là:",
+        a: ["Công thức sai", "1234.67", "1234.68", "1234"],
+        correct: 1
+    },
+    {
+        q: "Cái gì dưới đây là sự kết hợp giữa phần cứng và phần mềm, cho phép máy tính sử dụng trong 1 tổ chức chia sẻ dữ liệu, máy in và các tài nguyên khác:",
+        a: ["Hệ điều hành", "Mạng máy tính", "Phần mềm chia sẻ", "Cơ sở dữ liệu quan hệ"],
+        correct: 1
+    },
+    {
+        q: "Trong MS Word, bôi đen một cụm từ trong văn bản đang soạn rồi lần lượt thực hiện thao tác. Nhấn tổ hợp phím Ctrl + B tiếp đến là Ctrl + I, cụm từ được bôi đen sẽ :",
+        a: ["Được in đậm", "Được gạch dưới", "Được in đậm và nghiêng", "Được in nghiêng"],
+        correct: 2
+    },
+    {
+        q: "Trong MS PowerPoint, muốn chèn thêm một Slide mới ta nhấn tổ hợp phím:",
+        a: ["Nhấn Ctrl + M.", "Nhấn Ctrl + N.", "Nhấn Ctrl + O.", "Nhấn Ctrl + D."],
+        correct: 0
+    },
+    {
+        q: "Trong MS Word, phím hay tổ hợp phím nào cho phép chuyển con nháy về đầu tài liệu:",
+        a: ["Ctrl + Page Up", "Phím Home", "Ctrl + Home", "Phím Page Up"],
+        correct: 2
+    },
+    {
+        q: "Trong Excel, hàm MIN(-52, 20, -11, 23, -15) cho kết quả:",
+        a: ["20", "-52", "23", "-15"],
+        correct: 1
+    },
+    {
+        q: "Hãy cho biết mạng xã hội là gì?",
+        a: ["Một loại trang web thường được duy trì bởi một cá nhân với các mục thường xuyên được bình luận, miêu tả các sự kiện, hoặc tài liệu nào đó.", "Một cấu trúc ảo được tạo bởi một số cá nhân được ràng buộc bởi một hoặc nhiều loại mối quan hệ cụ thể", "Một chương trình tìm kiếm tài liệu theo từ khóa cụ thể và trả về một danh sách các tài liệu có chứa từ khóa đó", "Một chương trình được sử dụng để tạo ra các trang web cộng tác, nâng cao trang web cộng đồng, và cung cấp hệ thống quản lý kiến thức"],
+        correct: 1
+    },
+    {
+        q: "Trong MS Word 2013 để định dạng văn bản theo kiểu danh sách, ta thực hiện:",
+        a: ["Thẻ Home – Paragraph – nhấn vào nút Bullets hoặc Numbering", "Format - Bullets and Numbering", "Tools – Bullets and Numbering", "Edit - Bullets and Numbering"],
+        correct: 0
+    },
+    {
+        q: "Khi đang sử dụng Windows, để lưu nội dung màn hình vào bộ nhớ Clipboard ta sử dụng các phím nào?",
+        a: ["ESC", "Print Screen", "Ctrl+Ins", "Ctrl+C"],
+        correct: 1
+    },
+    {
+        q: "Trong các dạng địa chỉ sau đây, địa chỉ nào là địa chỉ tuyệt đối tại cột, tương đối tại hàng?",
+        a: ["$B$1:$D$10", "$B1: $D10", "B$1: D$10", "B$1: $D$10"],
+        correct: 2
+    },
+    {
+        q: "Phần mềm gián điệp (Spyware) là gì?",
+        a: ["Một cơ sở dữ liệu lưu trữ các thiết lập và tùy chọn cho hệ điều hành Microsoft Windows và chứa thông tin và cài đặt cho phần cứng", "Một dịch vụ cung cấp cho người sử dụng mà không cần thanh toán trên cơ sở thử nghiệm mà thường bị giới hạn bởi bất kỳ sự kết hợp của các chức năng, tính sẵn có, hoặc thuận tiện", "Một chương trình có thể sao chép chính nó và lây nhiễm sang một máy tính mà không được phép", "Một công nghệ, chẳng hạn như phần mềm theo dõi, bí mật giám sát, ngăn chặn, hoặc mất kiểm soát sự tương tác của người dùng với máy tính"],
+        correct: 3
+    },
+    {
+        q: "Thiết bị lưu trữ nào thường được dùng để sao lưu dữ liệu:",
+        a: ["Ổ đĩa mạng", "CD –ROM", "Ổ đĩa cứng", "Ổ băng"],
+        correct: 2
+    },
+    {
+        q: "Trong Windows, từ Shortcut có ý nghĩa gì?",
+        a: ["Xóa một đối tượng được chọn tại màn hình nền", "Đóng các cửa sổ đang mở", "Tất cả đều sai", "Tạo đường tắt để truy cập nhanh"],
+        correct: 3
+    },
+    {
+        q: "Trong khi đang soạn thảo văn bản Word, tổ hợp phím Ctrl + V thường được sử dụng để :",
+        a: ["Cắt một đoạn văn bản", "Sao chép một đoạn văn bản", "Cắt và sao chép một đoạn văn bản", "Dán một đoạn văn bản từ Clipboard"],
+        correct: 3
+    },
+    {
+        q: "Trong bảng tính MS Excel, để giữ cố định hàng hoặc cột trong cửa sổ soạn thảo, ta đánh dấu hàng hoặc cột, chọn:",
+        a: ["Thẻ Page Layout – Freeze Panes", "Thẻ Review – Freeze Panes", "Thẻ Home – Freeze Panes", "Thẻ View – Freeze Panes"],
+        correct: 3
+    },
+    {
+        q: "Trong PowerPoint, hiệu ứng chuyển trang Slide là:",
+        a: ["Trigger", "Transitions", "Animations", "Switch Slide"],
+        correct: 1
+    },
+    {
+        q: "Những công cụ được sử dụng cho giáo dục từ xa trên nền web không có tương tác mặt đối mặt?",
+        a: ["Social networking (Mạng xã hội)", "E-learning (Học trực tuyến)", "Podcasting (Hệ thống trình cung cấp nội dung trên Internet: tài liệu, âm thanh, hình ảnh, video ..)", "Home schooling (Dạy học tại nhà)"],
+        correct: 1
+    },
+    {
+        q: "Trong Excel, để đổi chữ thường thành chữ IN HOA, ta chọn:",
+        a: ["Hàm Upper", "Hàm Proper", "Hàm Lower", "Tất cả đều đúng"],
+        correct: 0
+    },
+    {
+        q: "Trong MS Word, các kí hiệu ' @ & 7 ... được sử dụng từ nhóm lệnh:",
+        a: ["Home; Symbol", "Insert; Shapes", "Insert; Pictures", "Insert; Symbol"],
+        correct: 3
+    },
+    {
+        q: "Trong MS Word, muốn bật/tắt thanh thước (Ruler) trên màn hình soạn thảo, ta thực hiện:",
+        a: ["Chọn nhóm lệnh Design; Ruler", "Chọn nhóm lệnh Format; Ruler", "Chọn nhóm lệnh Insert; Ruler", "Chọn nhóm lệnh View; Ruler"],
+        correct: 3
+    },
+    {
+        q: "Những hành động làm giảm nguy cơ căng mắt?",
+        a: ["Thiết lập màn hình phải đối diện với cửa sổ", "Sử dụng các thiết lập màn hình sáng nhất có thể", "Ngồi khoảng 12 \" từ màn hình của bạn", "Có mức độ giữa đôi mắt của bạn với phần trên của màn hình của bạn"],
+        correct: 3
+    }
+];
+
+function loadQuiz() {
+    const quizContainer = document.getElementById('quiz');
+    let output = '';
+
+    quizData.forEach((item, qIndex) => {
+        const questionNumber = qIndex + 29; 
+        output += `
+            <div class="question-block" id="q-block-${qIndex}">
+                <div class="question-text">Câu ${questionNumber}: ${item.q}</div>
+                <div class="options">
+        `;
+        
+        item.a.forEach((option, oIndex) => {
+            const prefix = String.fromCharCode(97 + oIndex); 
+            output += `
+                <label class="option-label" id="label-${qIndex}-${oIndex}">
+                    <input type="radio" name="question${qIndex}" value="${oIndex}">
+                    ${prefix}. ${option}
+                </label>
+            `;
+        });
+
+        output += `
+                </div>
+            </div>
+        `;
+    });
+
+    quizContainer.innerHTML = output;
+}
+
+function checkAnswers() {
+    let score = 0;
+
+    quizData.forEach((item, qIndex) => {
+        const selected = document.querySelector(`input[name="question${qIndex}"]:checked`);
+        
+        item.a.forEach((_, oIndex) => {
+            document.getElementById(`label-${qIndex}-${oIndex}`).classList.remove('correct-answer', 'wrong-answer');
+        });
+
+        document.getElementById(`label-${qIndex}-${item.correct}`).classList.add('correct-answer');
+
+        if (selected) {
+            const answerIndex = parseInt(selected.value);
+            if (answerIndex === item.correct) {
+                score++;
+            } else {
+                document.getElementById(`label-${qIndex}-${answerIndex}`).classList.add('wrong-answer');
+            }
+        }
+    });
+
+    const resultBox = document.getElementById('result');
+    resultBox.style.display = 'block';
+    resultBox.innerHTML = `Kết quả: Đúng ${score}/${quizData.length} câu! Đạt được ${((score/quizData.length)*10).toFixed(2)} điểm.`;
+    resultBox.scrollIntoView({ behavior: 'smooth' });
+}
+
+loadQuiz();
+</script>
+
+</body>
+</html>
